@@ -1,4 +1,5 @@
 #!/bin/bash
+# Ref. -> https://stgraber.org/2017/01/13/kubernetes-inside-lxd/
 
 # Configurações
 declare lxd="sudo /snap/bin/lxd"
