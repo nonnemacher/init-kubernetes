@@ -1,38 +1,27 @@
-declare network="kubbr0"
-declare lxc="/snap/bin/lxc"
-declare get="sudo apt-get"
+#!/bin/bash
 
-echo ":::: "
-echo ":::: Remover LXD "
-echo ":::: "
-${get} remove lxd -y
+# Configurações
+declare lxd="sudo /snap/bin/lxd"
+declare lxc="sudo /snap/bin/lxc"
+declare get="sudo apt"
 
-echo ":::: "
-echo ":::: Update Linux "
-echo ":::: "
-${get} update -y
+echo -e "\n"
+echo ":::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: "
+echo ":::: Preparando Ubuntu"
+echo ":::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: "
+echo -e "\n"
+${get} remove lxd -y && ${get} update && ${get} upgrade -y
 
-echo ":::: "
-echo ":::: Update Linux "
-echo ":::: "
-${get} upgrade -y
+echo -e "\n"
+echo ":::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: "
+echo ":::: Instalando SNAP e LXD "
+echo ":::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: "
+echo -e "\n"
+${get} install snap -y && sudo snap install lxd
 
-echo ":::: "
-echo ":::: Install Snap "
-echo ":::: "
-${get} install snap -y
-
-echo ":::: "
-echo ":::: Install Snap - LXD "
-echo ":::: "
-sudo snap install lxd
-
-echo ":::: "
-echo ":::: Init Snap - LXD "
-echo ":::: "
-sudo lxd init --auto
-
-echo ":::: "
-echo ":::: Init Network - LXC - ${network} "
-echo ":::: "
-sudo lxc network create ${network} ipv4.address=auto ipv4.nat=true ipv6.address=none ipv6.nat=false
+echo -e "\n"
+echo ":::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: "
+echo ":::: Iniciando LXD"
+echo ":::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: "
+echo -e "\n"
+${lxd} init --auto

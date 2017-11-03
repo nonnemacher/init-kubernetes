@@ -6,8 +6,8 @@ declare lxc="sudo /snap/bin/lxc"
 declare get="sudo apt"
 
 # Configurações Node
-declare name="kube"
-declare network="${name}"
+declare name="${1}"
+declare network="${2}"
 declare version="ubuntu:16.04"
 
 echo ":::: "
@@ -57,10 +57,10 @@ echo ":::: "
 echo ":::: LXC ${name}-${version} init lxd "
 echo ":::: "
 ${lxc} exec ${name} -- sudo snap install lxd
+${lxc} exec ${name} -- sudo snap install conjure-up --classic
 ${lxc} exec ${name} -- sh -c "curl https://packages.cloud.google.com/apt/doc/apt-key.gpg > /root/apt-key.gpg"
 ${lxc} exec ${name} -- apt-key add /root/apt-key.gpg
 ${lxc} exec ${name} -- sh -c "echo 'deb http://apt.kubernetes.io/ kubernetes-xenial main' > /etc/apt/sources.list.d/kubernetes.list"
-${lxc} exec ${name} -- ${get} update 
+${lxc} exec ${name} -- ${get} update
 ${lxc} exec ${name} -- ${get} install kubelet kubeadm kubectl kubernetes-cni -y
-
-
+${lxc} exec ${name} -- bash
